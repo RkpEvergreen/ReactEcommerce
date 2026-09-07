@@ -1,14 +1,18 @@
-  import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-   import Products from "./pages/Products";
-   
-   const App = () => {
-     return (
-       <Router>
-         <Routes>
-           <Route path="/products" element={<Products />} />
-         </Routes>
-       </Router>
-     );
-   };
-   
-   export default App;
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/Header/Header";
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+
+const App = () => {
+  return (
+   <BrowserRouter>
+     <Header />
+     <Routes>
+       <Route path="/" element={<Home />} />
+       <Route path="/products" element={<Products />} />
+     </Routes>
+   </BrowserRouter>
+  );
+};
+
+export default App;

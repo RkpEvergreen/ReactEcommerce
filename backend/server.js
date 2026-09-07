@@ -6,7 +6,9 @@ const productRoutes = require("./routes/productRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:5173"
+}));
 app.use(express.json());
 app.use("/api/products", productRoutes);
 
@@ -44,6 +46,16 @@ app.get("/api/test-db", async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+async function startServer() {
+    try {
+        await db.query("SELECT 1");
+        app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
+        });
+    } catch (error) {
+        console.error("Unable to connect to MySQL. Is XAMPP MySQL running?", error.message);
+        process.exitCode = 1;
+    }
+}
+
+startServer();
