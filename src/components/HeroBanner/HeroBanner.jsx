@@ -12,129 +12,80 @@ const slides = [
     {
         id: 1,
         image: banner1,
-        title: (
-            <>
-                We Picked Every Item
-                <br />
-                With Care,{" "}
-                <strong>You Must Try</strong>
-                <br />
-                Atleast Once.
-            </>
-        ),
+        alt: "Fashion collection with a go to collection promotion",
         buttonText: "Go To Collection",
-        link: "/products",
     },
     {
         id: 2,
         image: banner2,
-        title: (
-            <>
-                Discover Our
-                <br />
-                <strong>New Collection</strong>
-                <br />
-                Today.
-            </>
-        ),
-        buttonText: "Shop Now",
-        link: "/products",
+        alt: "Fashion collection with a shop now promotion",
+        buttonText: "Product Category",
     },
     {
         id: 3,
         image: banner3,
-        title: (
-            <>
-                Find Your
-                <br />
-                Perfect Style
-                <br />
-                <strong>Today.</strong>
-            </>
-        ),
-        buttonText: "Explore Now",
-        link: "/products",
+        alt: "Fashion collection with an explore now promotion",
+        buttonText: "Read More",
     },
 ];
 
 function HeroBanner() {
+
     const [currentSlide, setCurrentSlide] = useState(0);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentSlide((previous) =>
-                (previous + 1) % slides.length
-            );
+
+        const timer = setInterval(() => {
+
+            setCurrentSlide((prev) => {
+                return (prev + 1) % slides.length;
+            });
+
         }, 5000);
 
-        return () => clearInterval(interval);
+        return () => clearInterval(timer);
+
     }, []);
 
-    const goToSlide = (index) => {
-        setCurrentSlide(index);
-    };
+    const slide = slides[currentSlide];
 
     return (
         <section className="hero-banner">
 
             <div className="hero-slider">
 
-                {slides.map((slide, index) => (
-
-                    <article
-                        key={slide.id}
-                        className={`hero-slide ${
-                            index === currentSlide ? "active" : ""
-                        }`}
+                <div className="hero-slide">
+                    <img
+                        src={slide.image}
+                        alt={slide.alt}
+                        className="hero-slide-image"
+                    />
+                    <Link
+                        to="/products"
+                        className="hero-slide-button"
+                        aria-label={`${slide.buttonText} - slide ${currentSlide + 1}`}
                     >
+                        <span>{slide.buttonText}</span>
+                        <ArrowRight size={20} aria-hidden="true" />
+                    </Link>
+                </div>
 
-                        <img
-                            src={slide.image}
-                            alt="Fashion collection"
-                            className="hero-slide-image"
-                        />
 
-                        <div className="hero-slide-overlay">
+                {/* INDICATORS */}
 
-                            <div className="hero-content">
-
-                                <h1 className="hero-title">
-                                    {slide.title}
-                                </h1>
-
-                                <Link
-                                    to={slide.link}
-                                    className="hero-button"
-                                >
-                                    <span>
-                                        {slide.buttonText}
-                                    </span>
-
-                                    <ArrowRight size={22} />
-                                </Link>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                ))}
-
-                {/* Slider indicators */}
                 <div className="hero-indicators">
 
-                    {slides.map((slide, index) => (
+                    {slides.map((item, index) => (
 
                         <button
-                            key={slide.id}
+                            key={item.id}
                             type="button"
-                            className={`hero-indicator ${
+                            className={
                                 index === currentSlide
-                                    ? "active"
-                                    : ""
-                            }`}
-                            onClick={() => goToSlide(index)}
+                                    ? "hero-indicator active"
+                                    : "hero-indicator"
+                            }
+                            onClick={() => setCurrentSlide(index)}
                             aria-label={`Go to slide ${index + 1}`}
                         />
 

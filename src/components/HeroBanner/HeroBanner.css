@@ -1,45 +1,31 @@
 .hero-banner {
     width: 100%;
-    overflow: hidden;
-    padding: 28px 0 0;
+    padding: 30px 0 0;
     background: #fff;
+    overflow: hidden;
 }
 
 .hero-slider {
-    width: 100%;
     position: relative;
+    width: 100%;
     height: 680px;
 }
 
-/* Individual slides */
+/* Banner */
 
 .hero-slide {
-    position: absolute;
-    inset: 0;
-
+    position: relative;
     width: 100%;
     height: 100%;
-
-    opacity: 0;
-    visibility: hidden;
-
-    transition:
-        opacity 0.6s ease,
-        visibility 0.6s ease;
-}
-
-.hero-slide.active {
-    opacity: 1;
-    visibility: visible;
 }
 
 /* Image */
 
 .hero-slide-image {
+    display: block;
+
     width: 100%;
     height: 100%;
-
-    display: block;
 
     object-fit: cover;
     object-position: center;
@@ -47,70 +33,25 @@
     border-radius: 10px;
 }
 
-/* Overlay */
-
-.hero-slide-overlay {
+.hero-slide-button {
     position: absolute;
-    inset: 0;
-
-    display: flex;
-    align-items: center;
-
-    border-radius: 10px;
-}
-
-/* Content */
-
-.hero-content {
-    width: 50%;
-
-    padding-left: 17.5%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-/* Heading */
-
-.hero-title {
-    margin: 0;
-
-    color: #202020;
-
-    font-size: clamp(38px, 3.5vw, 62px);
-    font-weight: 400;
-
-    line-height: 1.25;
-    letter-spacing: -1px;
-}
-
-.hero-title strong {
-    font-weight: 800;
-}
-
-/* Button */
-
-.hero-button {
-    margin-top: 42px;
+    left: 10%;
+    top: 70%;
+    z-index: 2;
 
     min-width: 190px;
     height: 54px;
-
     padding: 0 20px;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 16px;
 
     background: #202020;
-    color: #fff;
-
     border-radius: 6px;
-
+    color: #fff;
     text-decoration: none;
-
     font-size: 14px;
     font-weight: 600;
 
@@ -119,16 +60,16 @@
         transform 0.2s ease;
 }
 
-.hero-button:hover {
+.hero-slide-button:hover {
     background: #000;
     transform: translateY(-2px);
 }
 
-.hero-button svg {
+.hero-slide-button svg {
     transition: transform 0.2s ease;
 }
 
-.hero-button:hover svg {
+.hero-slide-button:hover svg {
     transform: translateX(4px);
 }
 
@@ -137,35 +78,34 @@
 .hero-indicators {
     position: absolute;
 
-    bottom: 38px;
     left: 50%;
+    bottom: 35px;
 
     transform: translateX(-50%);
 
     display: flex;
     align-items: center;
 
-    gap: 20px;
+    gap: 14px;
 
-    z-index: 5;
+    z-index: 20;
 }
 
 .hero-indicator {
-    width: 20px;
-    height: 20px;
+    width: 12px;
+    height: 12px;
 
     padding: 0;
 
     border: none;
+
     border-radius: 50%;
 
     background: #fff;
 
     cursor: pointer;
 
-    transition:
-        width 0.25s ease,
-        background 0.25s ease;
+    transition: all 0.25s ease;
 }
 
 .hero-indicator.active {
@@ -185,14 +125,6 @@
 
     .hero-slider {
         height: 560px;
-    }
-
-    .hero-content {
-        padding-left: 10%;
-    }
-
-    .hero-title {
-        font-size: 44px;
     }
 
 }
@@ -216,39 +148,23 @@
         object-position: 65% center;
     }
 
-    .hero-content {
-        width: 100%;
-
-        padding: 40px 25px;
-
-        justify-content: flex-start;
-    }
-
-    .hero-title {
-        font-size: 34px;
-        line-height: 1.2;
-    }
-
-    .hero-button {
-        margin-top: 28px;
-
+    .hero-slide-button {
+        left: 25px;
+        top: 70%;
         min-width: 170px;
         height: 50px;
     }
 
     .hero-indicators {
         bottom: 22px;
-
-        gap: 12px;
     }
 
     .hero-indicator {
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
     }
 
     .hero-indicator.active {
         width: 28px;
     }
-
 }

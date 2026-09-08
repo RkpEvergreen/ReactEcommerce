@@ -1,0 +1,315 @@
+/* =========================================
+   CATEGORIES SECTION
+========================================= */
+
+.categories-section {
+    width: 100%;
+
+    padding: 70px 7.5% 80px;
+
+    background: #fff;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.categories-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 58px;
+}
+
+.categories-header h2 {
+    margin: 0;
+
+    color: #202020;
+
+    font-size: clamp(38px, 3.2vw, 54px);
+    font-weight: 400;
+
+    line-height: 1.2;
+
+    letter-spacing: -1.5px;
+}
+
+.view-all-collection {
+    color: #202020;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    padding-bottom: 8px;
+
+    border-bottom: 2px solid #202020;
+
+    white-space: nowrap;
+}
+
+.view-all-collection:hover {
+    opacity: 0.65;
+}
+
+
+/* =========================================
+   SLIDER
+========================================= */
+
+.categories-slider-wrapper {
+    position: relative;
+
+    width: 100%;
+}
+
+
+/* Category slider */
+
+.categories-slider {
+    display: flex;
+
+    gap: 26px;
+
+    overflow-x: auto;
+
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+
+    padding: 0 0 10px;
+}
+
+.categories-slider::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* =========================================
+   CATEGORY CARD
+========================================= */
+
+.category-card {
+    flex: 0 0 calc((100% - 104px) / 5);
+
+    min-width: 190px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: #202020;
+
+    text-decoration: none;
+
+    text-align: center;
+}
+
+
+/* Image */
+
+.category-image-wrapper {
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    background: #f1f1f1;
+}
+
+.category-image {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition: transform 0.4s ease;
+}
+
+.category-card:hover .category-image {
+    transform: scale(1.05);
+}
+
+
+/* Name */
+
+.category-card h3 {
+    margin: 22px 0 7px;
+
+    color: #202020;
+
+    font-size: 22px;
+    font-weight: 400;
+
+    line-height: 1.2;
+}
+
+
+/* Count */
+
+.category-card p {
+    margin: 0;
+
+    color: #666;
+
+    font-size: 18px;
+    font-weight: 400;
+}
+
+
+/* =========================================
+   ARROWS
+========================================= */
+
+.category-arrow {
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    z-index: 5;
+
+    width: 56px;
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #202020;
+
+    border-radius: 50%;
+
+    background: #fff;
+
+    color: #202020;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.category-arrow:hover {
+    background: #202020;
+    color: #fff;
+}
+
+.category-arrow-left {
+    left: -28px;
+}
+
+.category-arrow-right {
+    right: -28px;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .categories-section {
+        padding: 60px 5%;
+    }
+
+    .categories-header {
+        margin-bottom: 40px;
+    }
+
+    .category-card {
+        flex: 0 0 calc((100% - 52px) / 3);
+    }
+
+    .category-card h3 {
+        font-size: 20px;
+    }
+
+    .category-card p {
+        font-size: 16px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .categories-section {
+        padding: 45px 20px 55px;
+    }
+
+    .categories-header {
+        align-items: flex-start;
+
+        gap: 20px;
+
+        margin-bottom: 30px;
+    }
+
+    .categories-header h2 {
+        font-size: 30px;
+
+        letter-spacing: -0.8px;
+    }
+
+    .view-all-collection {
+        font-size: 14px;
+
+        padding-bottom: 5px;
+    }
+
+    .categories-slider {
+        gap: 18px;
+    }
+
+    .category-card {
+        flex: 0 0 145px;
+        min-width: 145px;
+    }
+
+    .category-card h3 {
+        margin-top: 15px;
+
+        font-size: 18px;
+    }
+
+    .category-card p {
+        font-size: 14px;
+    }
+
+    .category-arrow {
+        width: 42px;
+        height: 42px;
+    }
+
+    .category-arrow svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .category-arrow-left {
+        left: -10px;
+    }
+
+    .category-arrow-right {
+        right: -10px;
+    }
+}
