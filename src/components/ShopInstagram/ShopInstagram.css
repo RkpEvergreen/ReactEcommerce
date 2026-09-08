@@ -1,0 +1,158 @@
+.shop-instagram {
+    width: 100%;
+    background: #ffffff;
+    padding: 55px 0 70px;
+}
+
+.shop-instagram-container {
+    width: 85%;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+
+/* ================================
+   HEADING
+================================ */
+
+.instagram-heading {
+    text-align: center;
+    margin-bottom: 52px;
+}
+
+.instagram-heading h2 {
+    margin: 0 0 18px;
+
+    color: #171717;
+
+    font-size: 50px;
+    font-weight: 400;
+
+    line-height: 1.2;
+}
+
+.instagram-heading p {
+    margin: 0;
+
+    color: #35445a;
+
+    font-size: 21px;
+    font-weight: 400;
+
+    line-height: 1.5;
+}
+
+
+/* ================================
+   IMAGE GRID
+================================ */
+
+.instagram-grid {
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 12px;
+}
+
+
+/* ================================
+   IMAGE
+================================ */
+
+.instagram-item {
+    display: block;
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    border-radius: 9px;
+
+    background: #f3f3f3;
+}
+
+.instagram-item img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.4s ease,
+        opacity 0.3s ease;
+}
+
+
+/* ================================
+   HOVER
+================================ */
+
+.instagram-item:hover img {
+    transform: scale(1.05);
+
+    opacity: 0.9;
+}
+
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 1000px) {
+
+    .shop-instagram-container {
+        width: 90%;
+    }
+
+    .instagram-heading h2 {
+        font-size: 42px;
+    }
+
+    .instagram-heading p {
+        font-size: 18px;
+    }
+
+    .instagram-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    .shop-instagram {
+        padding: 40px 0 50px;
+    }
+
+    .shop-instagram-container {
+        width: 90%;
+    }
+
+    .instagram-heading {
+        margin-bottom: 30px;
+    }
+
+    .instagram-heading h2 {
+        font-size: 32px;
+    }
+
+    .instagram-heading p {
+        font-size: 16px;
+    }
+
+    .instagram-grid {
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 10px;
+    }
+
+}

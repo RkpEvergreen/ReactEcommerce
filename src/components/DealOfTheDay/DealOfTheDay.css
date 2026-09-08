@@ -1,0 +1,442 @@
+/* =========================================
+   DEAL OF THE DAY
+========================================= */
+
+.deal-section {
+    width: 100%;
+
+    padding: 55px 0 80px;
+
+    background: #fff;
+}
+
+
+.deal-container {
+    width: 85%;
+
+    max-width: 1620px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.deal-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 38px;
+}
+
+
+.deal-header h2 {
+    margin: 0;
+
+    color: #171717;
+
+    font-size: 48px;
+
+    font-weight: 400;
+
+    line-height: 1.2;
+
+    letter-spacing: -1px;
+}
+
+
+/* =========================================
+   MAIN COUNTDOWN
+========================================= */
+
+.deal-countdown {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+.deal-countdown-label {
+    margin-right: 10px;
+
+    color: #111;
+
+    font-size: 22px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+}
+
+
+.countdown-box {
+    width: 60px;
+
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #d52f4d;
+
+    color: #fff;
+
+    font-size: 25px;
+
+    font-weight: 400;
+}
+
+
+.countdown-separator {
+    color: #d52f4d;
+
+    font-size: 24px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   PRODUCT GRID
+========================================= */
+
+.deal-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 36px;
+}
+
+
+/* =========================================
+   PRODUCT
+========================================= */
+
+.deal-product {
+    min-width: 0;
+
+    color: #111;
+
+    text-decoration: none;
+}
+
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.deal-image-wrapper {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1.13;
+
+    overflow: hidden;
+
+    background: #f4f4f4;
+}
+
+
+.deal-image {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition: transform 0.35s ease;
+}
+
+
+.deal-product:hover .deal-image {
+    transform: scale(1.04);
+}
+
+
+/* =========================================
+   DISCOUNT
+========================================= */
+
+.deal-discount {
+    position: absolute;
+
+    top: 8px;
+
+    left: 8px;
+
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #d52f4d;
+
+    color: #fff;
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   PRODUCT COUNTDOWN
+========================================= */
+
+.product-countdown {
+    position: absolute;
+
+    bottom: 12px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    min-width: 235px;
+
+    height: 48px;
+
+    padding: 0 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    border-radius: 7px;
+
+    background: #fff;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+    color: #df354f;
+
+    font-size: 15px;
+}
+
+
+.product-countdown strong {
+    font-weight: 700;
+}
+
+
+/* =========================================
+   PRODUCT NAME
+========================================= */
+
+.deal-product-name {
+    margin: 20px 0 8px;
+
+    color: #111;
+
+    font-size: 20px;
+
+    font-weight: 400;
+
+    line-height: 1.35;
+}
+
+
+/* =========================================
+   RATING
+========================================= */
+
+.deal-rating {
+    display: flex;
+
+    align-items: center;
+
+    gap: 2px;
+
+    margin-bottom: 8px;
+}
+
+
+.star {
+    color: #ddd;
+
+    font-size: 21px;
+}
+
+
+.star.active {
+    color: #ff9d00;
+}
+
+
+/* =========================================
+   PRICE
+========================================= */
+
+.deal-price {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+.deal-old-price {
+    color: #aaa;
+
+    font-size: 18px;
+
+    text-decoration: line-through;
+}
+
+
+.deal-current-price {
+    color: #d52f4d;
+
+    font-size: 21px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .deal-container {
+        width: 92%;
+    }
+
+    .deal-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 25px;
+    }
+
+    .deal-header h2 {
+        font-size: 40px;
+    }
+
+    .deal-grid {
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 35px 20px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .deal-section {
+        padding: 40px 0 60px;
+    }
+
+    .deal-container {
+        width: 90%;
+    }
+
+    .deal-header h2 {
+        font-size: 32px;
+    }
+
+    .deal-countdown {
+        width: 100%;
+
+        flex-wrap: wrap;
+    }
+
+    .deal-countdown-label {
+        width: 100%;
+
+        margin-bottom: 8px;
+
+        font-size: 16px;
+    }
+
+    .countdown-box {
+        width: 48px;
+
+        height: 48px;
+
+        font-size: 19px;
+    }
+
+    .countdown-separator {
+        font-size: 18px;
+    }
+
+    .deal-grid {
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 30px 12px;
+    }
+
+    .deal-product-name {
+        margin-top: 12px;
+
+        font-size: 14px;
+    }
+
+    .star {
+        font-size: 16px;
+    }
+
+    .deal-old-price {
+        font-size: 14px;
+    }
+
+    .deal-current-price {
+        font-size: 16px;
+    }
+
+    .product-countdown {
+        min-width: auto;
+
+        width: 90%;
+
+        height: 38px;
+
+        padding: 0 5px;
+
+        gap: 3px;
+
+        font-size: 11px;
+    }
+
+    .deal-discount {
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 12px;
+    }
+}
