@@ -16,6 +16,18 @@ CREATE TABLE IF NOT EXISTS users (
     UNIQUE KEY uq_users_email (email)
 ) ENGINE=InnoDB;
 
+INSERT INTO users (name, email, password_hash, role)
+VALUES (
+    'Admin User',
+    'admin@shop.com',
+    '$2b$10$P03QGtodTT1IKK0.HpFuauS47oj72/KUEaQWPSSzkvaCkazE4sqEG',
+    'admin'
+)
+ON DUPLICATE KEY UPDATE
+    name = VALUES(name),
+    password_hash = VALUES(password_hash),
+    role = VALUES(role);
+
 CREATE TABLE IF NOT EXISTS categories (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
