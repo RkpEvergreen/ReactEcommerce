@@ -1,0 +1,27 @@
+.product-editor-page { max-width: 980px; margin: 0 auto; }
+.product-editor-heading { margin-bottom: 24px; }
+.product-editor-heading h1 { margin: 0; color: #20232c; font-size: 24px; }
+.product-editor-heading p { margin: 5px 0 0; color: #969ba5; font-size: 13px; }
+.product-form { display: grid; gap: 18px; padding: 28px; border: 1px solid #e5e8ec; border-radius: 10px; background: #fff; }
+.form-group, .image-upload { display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: center; gap: 24px; }
+.form-group label, .image-upload > label:first-child { color: #20232c; font-size: 13px; font-weight: 600; }
+.form-group input, .form-group textarea, .form-group select { width: 100%; min-height: 48px; padding: 0 15px; border: 1px solid #e0e2e6; border-radius: 8px; outline: none; color: #363a44; background: #fff; font-size: 14px; }
+.form-group textarea { min-height: 120px; padding-top: 13px; resize: vertical; }
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #7137ed; box-shadow: 0 0 0 3px #7137ed1a; }
+.image-upload { align-items: start; }
+.image-upload-dropzone { display: grid; min-height: 132px; place-items: center; align-content: center; gap: 5px; padding: 20px; border: 1px dashed #c9cdd5; border-radius: 8px; color: #666b76; background: #fafbfc; cursor: pointer; text-align: center; }
+.image-upload-dropzone span { color: #7137ed; font-size: 14px; font-weight: 600; }
+.image-upload-dropzone small { color: #969ba5; font-size: 12px; }
+.image-upload-dropzone input { display: none; }
+.image-preview { grid-column: 2; margin-bottom: 8px; }
+.image-preview img { width: 96px; height: 96px; border-radius: 8px; object-fit: cover; }
+.product-form-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
+.product-form-actions button { min-height: 48px; border: 0; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.cancel-product-btn { color: #20232c; background: #e5e7eb; }
+.save-product-btn { color: #fff; background: #7137ed; }
+.save-product-btn:hover { background: #6025db; }
+@media (max-width: 700px) {
+    .product-form { padding: 18px; }
+    .form-group, .image-upload { grid-template-columns: 1fr; gap: 8px; }
+    .image-preview { grid-column: 1; }
+}

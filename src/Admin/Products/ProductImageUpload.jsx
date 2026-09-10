@@ -51,11 +51,15 @@ function ProductImageUpload({
             )}
 
 
-            <input
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-                onChange={handleChange}
-            />
+            <label className="image-upload-dropzone">
+                <span>Upload a product image</span>
+                <small>PNG, JPG or WEBP (max 5 MB)</small>
+                <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    onChange={handleChange}
+                />
+            </label>
 
         </div>
 

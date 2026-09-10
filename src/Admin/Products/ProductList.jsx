@@ -3,7 +3,13 @@ import { Link } from "react-router-dom";
 import {
     Plus,
     Pencil,
-    Trash2
+    Trash2,
+    Search,
+    SlidersHorizontal,
+    Upload,
+    Download,
+    MoreHorizontal,
+    Eye
 } from "lucide-react";
 
 import "./ProductList.css";
@@ -12,6 +18,7 @@ function ProductList() {
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
 
 
     const fetchProducts = async () => {
@@ -87,6 +94,10 @@ function ProductList() {
         }
     };
 
+    const filteredProducts = products.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
 
     if (loading) {
         return <p>Loading products...</p>;
@@ -97,23 +108,49 @@ function ProductList() {
 
         <div className="admin-products">
 
-            <div className="page-title">
-
+            <div className="products-toolbar">
                 <div>
                     <h1>Products</h1>
-                    <p>Manage your products</p>
+                    <p>Manage your products inventory</p>
                 </div>
 
-                <Link
-                    to="/admin/products/add"
-                    className="add-product-btn"
-                >
-                    <Plus size={18} />
-                    Add Product
-                </Link>
-
+                <div className="products-toolbar-actions">
+                    <button type="button" className="products-secondary-btn">
+                        <Download size={14} /> Export
+                    </button>
+                    <button type="button" className="products-secondary-btn">
+                        <Upload size={14} /> Import
+                    </button>
+                    <button type="button" className="products-bulk-btn">Bulk Action</button>
+                    <button type="button" className="products-delete-btn" disabled>Delete</button>
+                    <Link to="/admin/products/add" className="add-product-btn">
+                        <Plus size={16} /> Add Product
+                    </Link>
+                </div>
             </div>
 
+            <div className="products-filter-row">
+                <div className="products-filters">
+                    <label className="products-search">
+                        <Search size={15} />
+                        <input
+                            type="search"
+                            placeholder="Search by product name"
+                            value={searchTerm}
+                            onChange={(event) => setSearchTerm(event.target.value)}
+                        />
+                    </label>
+                    <button type="button" className="products-filter-btn">
+                        <SlidersHorizontal size={14} /> Category
+                    </button>
+                    <button type="button" className="products-filter-btn">
+                        <SlidersHorizontal size={14} /> Price
+                    </button>
+                </div>
+                <button type="button" className="products-view-btn">
+                    <Eye size={14} /> View
+                </button>
+            </div>
 
             <div className="product-table-container">
 
@@ -135,7 +172,7 @@ function ProductList() {
 
                     <tbody>
 
-                        {products.map(product => (
+                        {filteredProducts.map(product => (
 
                             <tr key={product.id}>
 
@@ -191,6 +228,9 @@ function ProductList() {
                                             }
                                         >
                                             <Trash2 size={16} />
+                                        </button>
+                                        <button type="button" className="more-btn" aria-label={`More actions for ${product.name}`}>
+                                            <MoreHorizontal size={16} />
                                         </button>
 
                                     </div>

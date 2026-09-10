@@ -1,0 +1,307 @@
+.customer-login-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    border-radius: 30px;
+    background: #fff;
+    color: #11111f;
+}
+
+.customer-login-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 32px;
+    background: #fff;
+}
+
+.customer-login-card-inner {
+    width: min(100%, 426px);
+    padding: 46px 44px 52px;
+    border-radius: 16px;
+    box-shadow: 0 15px 38px rgba(30, 31, 45, .08);
+}
+
+.customer-login-logo {
+    display: inline-block;
+    margin-bottom: 48px;
+    color: #ff7258;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.customer-login-welcome {
+    margin: 0 0 12px;
+    color: #999;
+    font-size: 13px;
+}
+
+.customer-login-card h1 {
+    margin: 0 0 30px;
+    font-size: 42px;
+    line-height: 1;
+    letter-spacing: -1.5px;
+}
+
+.customer-login-form {
+    display: grid;
+    gap: 8px;
+}
+
+.customer-login-form label,
+.customer-login-password-label {
+    color: #444;
+    font-size: 12px;
+}
+
+.customer-login-form input {
+    width: 100%;
+    height: 34px;
+    margin-bottom: 9px;
+    border: 0;
+    border-radius: 3px;
+    padding: 0 9px;
+    outline: 2px solid transparent;
+    color: #333;
+    background: #fff5f2;
+    font-size: 11px;
+}
+
+.customer-login-form input:focus {
+    outline-color: #ff7258;
+}
+
+.customer-login-form input::placeholder {
+    color: #888;
+}
+
+.customer-login-password-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.customer-login-password-label a {
+    color: #999;
+    font-size: 11px;
+}
+
+.customer-login-form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 106px;
+    height: 34px;
+    margin: 20px auto 20px;
+    border: 0;
+    border-radius: 20px;
+    color: #fff;
+    background: #ff7258;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.customer-login-form button span {
+    font-size: 18px;
+    line-height: 0;
+}
+
+.customer-login-form button:disabled {
+    cursor: wait;
+    opacity: .7;
+}
+
+.customer-login-signup {
+    margin: 0;
+    color: #c6c6c6;
+    text-align: center;
+    font-size: 12px;
+}
+
+.customer-login-signup a {
+    color: #ff7258;
+}
+
+.customer-login-admin-link {
+    display: block;
+    margin-top: 24px;
+    color: #aaa;
+    text-align: center;
+    font-size: 11px;
+}
+
+.customer-login-art {
+    position: relative;
+    overflow: hidden;
+    background: #ffede1;
+}
+
+.customer-login-art::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: #ffb29b;
+}
+
+.customer-login-wall-lines {
+    position: absolute;
+    inset: 25% 9% 12%;
+    opacity: .7;
+    background: repeating-linear-gradient(0deg, transparent 0 58px, #ffbda5 59px 60px);
+}
+
+.customer-login-wall-lines::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg, transparent 0 72px, #ffbda5 73px 74px);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.customer-login-person {
+    position: absolute;
+    z-index: 2;
+    right: 22%;
+    bottom: 4%;
+    width: 145px;
+    height: 355px;
+}
+
+.customer-login-head {
+    position: absolute;
+    top: 0;
+    left: 36px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #ffd0af;
+    box-shadow: inset 0 7px #202033;
+}
+
+.customer-login-body {
+    position: absolute;
+    top: 47px;
+    left: 16px;
+    width: 110px;
+    height: 145px;
+    border-radius: 35px 35px 18px 18px;
+    background: #fb7056;
+    transform: rotate(4deg);
+}
+
+.customer-login-leg {
+    position: absolute;
+    top: 175px;
+    width: 43px;
+    height: 176px;
+    border-radius: 10px 10px 18px 18px;
+    background: #202033;
+}
+
+.customer-login-leg-left {
+    left: 36px;
+    transform: rotate(3deg);
+}
+
+.customer-login-leg-right {
+    right: 20px;
+    transform: rotate(-5deg);
+}
+
+.customer-login-cart {
+    position: absolute;
+    z-index: 3;
+    bottom: 4%;
+    left: 6%;
+    width: 235px;
+    height: 180px;
+    transform: rotate(9deg);
+}
+
+.customer-login-cart-basket {
+    position: absolute;
+    top: 16px;
+    left: 27px;
+    width: 170px;
+    height: 92px;
+    border: 1px solid #242438;
+    border-top: 0;
+    transform: skew(-13deg);
+    background: linear-gradient(90deg, transparent 49%, #10edbd 50% 72%, #1765e8 73%);
+}
+
+.customer-login-cart-basket::before,
+.customer-login-cart-basket::after {
+    content: "";
+    position: absolute;
+    background: #242438;
+}
+
+.customer-login-cart-basket::before {
+    top: 34px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+}
+
+.customer-login-cart-basket::after {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+}
+
+.customer-login-cart-wheel {
+    position: absolute;
+    bottom: 9px;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background: #34344c;
+}
+
+.cart-wheel-left {
+    left: 30px;
+}
+
+.cart-wheel-right {
+    right: 20px;
+}
+
+.customer-login-ball {
+    position: absolute;
+    z-index: 1;
+    right: 24%;
+    bottom: 29%;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: #fb7056;
+}
+
+@media (max-width: 800px) {
+    .customer-login-page {
+        display: block;
+        border-radius: 0;
+        overflow: visible;
+    }
+
+    .customer-login-art {
+        display: none;
+    }
+
+    .customer-login-card {
+        min-height: 100vh;
+        padding: 24px;
+    }
+
+    .customer-login-card-inner {
+        box-shadow: none;
+    }
+}

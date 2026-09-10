@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import ProductForm from "./ProductForm";
+import "./AddProduct.css";
 
 function EditProduct() {
 
@@ -80,9 +81,11 @@ function EditProduct() {
 
     return (
 
-        <div>
-
-            <h1>Edit Product</h1>
+        <div className="admin-page product-editor-page">
+            <div className="product-editor-heading">
+                <h1>Edit Product</h1>
+                <p>Update your product information</p>
+            </div>
 
             <ProductForm
                 product={product}

@@ -52,6 +52,12 @@ async function migrateExistingProducts(connection) {
         );
     }
 
+    if (!columnNames.has("sale_price")) {
+        await connection.query(
+            "ALTER TABLE products ADD sale_price DECIMAL(10, 2) NULL AFTER price"
+        );
+    }
+
     if (!columnNames.has("image_url")) {
         await connection.query(
             "ALTER TABLE products ADD image_url VARCHAR(500) NULL"

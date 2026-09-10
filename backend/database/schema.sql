@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS products (
     slug VARCHAR(220) NOT NULL,
     description TEXT NULL,
     price DECIMAL(10, 2) NOT NULL,
+    sale_price DECIMAL(10, 2) NULL,
     stock_quantity INT UNSIGNED NOT NULL DEFAULT 0,
     image_url VARCHAR(500) NULL,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
@@ -59,7 +60,8 @@ CREATE TABLE IF NOT EXISTS products (
         FOREIGN KEY (category_id) REFERENCES categories (id)
         ON DELETE SET NULL
         ON UPDATE CASCADE,
-    CONSTRAINT chk_products_price CHECK (price >= 0)
+    CONSTRAINT chk_products_price CHECK (price >= 0),
+    CONSTRAINT chk_products_sale_price CHECK (sale_price IS NULL OR (sale_price >= 0 AND sale_price <= price))
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS cart (

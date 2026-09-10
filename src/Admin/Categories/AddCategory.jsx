@@ -1,37 +1,61 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Category.css";
 
 function AddCategory() {
     const navigate = useNavigate();
+    const [form, setForm] = useState({ name: "", slug: "", description: "" });
+    const [saving, setSaving] = useState(false);
 
-    const handleSubmit = (event) => {
+    const handleChange = (event) => {
+        setForm({ ...form, [event.target.name]: event.target.value });
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        alert("Category added successfully.");
-        navigate("/admin/categories");
+        setSaving(true);
+        try {
+            const response = await fetch("http://localhost:5000/api/categories", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(form)
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(data.error || "Unable to create category");
+            }
+            navigate("/admin/categories");
+        } catch (error) {
+            console.error(error);
+            alert(error.message);
+        } finally {
+            setSaving(false);
+        }
     };
 
     return (
-        <div className="admin-page">
-            <h1>Add Category</h1>
-
-            <form className="product-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Category Name</label>
-                    <input type="text" name="name" required />
+        <div className="admin-page category-editor-page">
+            <div className="category-editor-heading">
+                <h1>Add Category</h1>
+                <p>Create a category for organizing your products</p>
+            </div>
+            <form className="category-form" onSubmit={handleSubmit}>
+                <div className="category-form-group">
+                    <label htmlFor="category-name">Category Name</label>
+                    <input id="category-name" name="name" value={form.name} onChange={handleChange} required />
                 </div>
-
-                <div className="form-group">
-                    <label>Slug</label>
-                    <input type="text" name="slug" required />
+                <div className="category-form-group">
+                    <label htmlFor="category-slug">Slug</label>
+                    <input id="category-slug" name="slug" value={form.slug} onChange={handleChange} placeholder="Optional - generated from name" />
                 </div>
-
-                <div className="form-group">
-                    <label>Description</label>
-                    <textarea name="description" rows="4" />
+                <div className="category-form-group">
+                    <label htmlFor="category-description">Description</label>
+                    <textarea id="category-description" name="description" rows="4" value={form.description} onChange={handleChange} />
                 </div>
-
-                <button type="submit" className="save-product-btn">
-                    Save Category
-                </button>
+                <div className="category-form-actions">
+                    <button type="button" onClick={() => navigate("/admin/categories")}>Cancel</button>
+                    <button type="submit" disabled={saving}>{saving ? "Saving..." : "Save Category"}</button>
+                </div>
             </form>
         </div>
     );

@@ -3,7 +3,8 @@ import {
    Navigate,
    Outlet,
    Route,
-   Routes
+   Routes,
+   useLocation
 } from "react-router-dom";
 
 import Header from "./components/Header/Header";
@@ -14,6 +15,7 @@ import Home from "./pages/Home";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import Login from "./pages/Login";
+import AdminLogin from "./pages/AdminLogin";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -35,7 +37,7 @@ function ProtectedAdminRoute() {
    const { user } = useAuth();
 
    if (!user) {
-       return <Navigate to="/login" replace />;
+       return <Navigate to="/admin/login" replace />;
    }
 
    if (user.role !== "admin") {
@@ -45,17 +47,21 @@ function ProtectedAdminRoute() {
    return <Outlet />;
 }
 
-function App() {
+function AppContent() {
+   const location = useLocation();
+   const isAdminRoute = location.pathname.startsWith("/admin");
+   const isAuthLogin = ["/login", "/admin/login"].includes(location.pathname);
+
    return (
-       <AuthProvider>
-           <BrowserRouter>
-               <Header />
+       <>
+            {!isAuthLogin && !isAdminRoute && <Header />}
 
                <Routes>
                    <Route path="/" element={<Home />} />
                    <Route path="/products" element={<Products />} />
                    <Route path="/products/:id" element={<ProductDetails />} />
                    <Route path="/login" element={<Login />} />
+                   <Route path="/admin/login" element={<AdminLogin />} />
                    <Route path="/register" element={<Register />} />
                    <Route path="/cart" element={<Cart />} />
                    <Route path="/checkout" element={<Checkout />} />
@@ -77,8 +83,17 @@ function App() {
                    </Route>
                </Routes>
 
-               <Footer />
-           </BrowserRouter>
+           {!isAuthLogin && !isAdminRoute && <Footer />}
+       </>
+   );
+}
+
+function App() {
+   return (
+       <AuthProvider>
+          <BrowserRouter>
+              <AppContent />
+          </BrowserRouter>
        </AuthProvider>
    );
 }

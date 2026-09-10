@@ -43,6 +43,14 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+    return authenticate(req, res, false);
+};
+
+exports.loginAdmin = async (req, res) => {
+    return authenticate(req, res, true);
+};
+
+async function authenticate(req, res, administratorOnly) {
     try {
         const { email, password } = req.body;
 
@@ -50,17 +58,28 @@ exports.login = async (req, res) => {
             return res.status(400).json({ error: "Email and password are required." });
         }
 
-        const [users] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+        const query = administratorOnly
+            ? "SELECT * FROM users WHERE email = ? AND role = 'admin'"
+            : "SELECT * FROM users WHERE email = ? AND role = 'customer'";
+        const [users] = await db.query(query, [email]);
 
         if (users.length === 0) {
-            return res.status(401).json({ error: "Invalid email or password." });
+            return res.status(401).json({
+                error: administratorOnly
+                    ? "Invalid administrator email or password."
+                    : "Invalid email or password."
+            });
         }
 
         const user = users[0];
         const isPasswordValid = await bcrypt.compare(password, user.password_hash);
 
         if (!isPasswordValid) {
-            return res.status(401).json({ error: "Invalid email or password." });
+            return res.status(401).json({
+                error: administratorOnly
+                    ? "Invalid administrator email or password."
+                    : "Invalid email or password."
+            });
         }
 
         const safeUser = {
