@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import "./ProductList.css";
+import { getProductImageUrl } from "../../utils/productImage";
 
 function ProductList() {
 
@@ -179,7 +180,7 @@ function ProductList() {
                                 <td>
 
                                     <img
-                                        src={`http://localhost:5000/uploads/products/${product.image}`}
+                                        src={getProductImageUrl(product.image_url || product.image)}
                                         alt={product.name}
                                         className="admin-product-image"
                                     />

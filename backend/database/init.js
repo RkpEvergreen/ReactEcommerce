@@ -83,6 +83,24 @@ async function migrateExistingProducts(connection) {
     }
 }
 
+async function migrateExistingCategories(connection) {
+    const [tables] = await connection.query(
+        "SELECT TABLE_NAME FROM information_schema.TABLES " +
+        "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'categories'"
+    );
+
+    if (tables.length === 0) {
+        return;
+    }
+
+    const [columns] = await connection.query("SHOW COLUMNS FROM categories");
+    if (!columns.some((column) => column.Field === "image_url")) {
+        await connection.query(
+            "ALTER TABLE categories ADD image_url VARCHAR(500) NULL AFTER description"
+        );
+    }
+}
+
 async function initializeDatabase() {
     const connection = await mysql.createConnection({
         host: process.env.DB_HOST,
@@ -101,6 +119,7 @@ async function initializeDatabase() {
         await migrateExistingProducts(connection);
         const schema = fs.readFileSync(schemaPath, "utf8");
         await connection.query(schema);
+        await migrateExistingCategories(connection);
         console.log(`Database schema initialized in ${process.env.DB_NAME}.`);
     } finally {
         await connection.end();

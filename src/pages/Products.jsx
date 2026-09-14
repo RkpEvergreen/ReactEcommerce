@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getProductImageUrl } from "../utils/productImage";
 
 function Products() {
     const [products, setProducts] = useState([]);
@@ -119,10 +120,9 @@ function Products() {
                                     <div className="product-image">
 
                                         <img
-                                            src={
-                                                product.image_url ||
-                                                product.image
-                                            }
+                                            src={getProductImageUrl(
+                                                product.image_url || product.image
+                                            )}
                                             alt={product.name}
                                         />
 

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Category.css";
+import { getCategoryImageUrl } from "../../utils/categoryImage";
 
 function EditCategory() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [form, setForm] = useState(null);
+    const [image, setImage] = useState(null);
 
     useEffect(() => {
         fetch(`http://localhost:5000/api/categories/${id}`)
@@ -25,10 +27,16 @@ function EditCategory() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
+            const formData = new FormData();
+            formData.append("name", form.name);
+            formData.append("slug", form.slug);
+            formData.append("description", form.description || "");
+            if (image) {
+                formData.append("image", image);
+            }
             const response = await fetch(`http://localhost:5000/api/categories/${id}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form)
+                body: formData
             });
             const data = await response.json().catch(() => ({}));
             if (!response.ok) {
@@ -55,6 +63,13 @@ function EditCategory() {
                 <div className="category-form-group">
                     <label htmlFor="category-name">Category Name</label>
                     <input id="category-name" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} required />
+                </div>
+                <div className="category-form-group">
+                    <label htmlFor="category-image">Category Image</label>
+                    <div>
+                        {form.image_url && <img className="category-image-preview" src={getCategoryImageUrl(form.image_url)} alt={form.name} />}
+                        <input id="category-image" type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => setImage(event.target.files[0] || null)} />
+                    </div>
                 </div>
                 <div className="category-form-group">
                     <label htmlFor="category-slug">Slug</label>

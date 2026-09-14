@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import "./ProductSection.css";
+import { getProductImageUrl } from "../../utils/productImage";
 
 const API_URL = "http://localhost:5000/api/products";
 
@@ -156,11 +157,9 @@ function ProductSection() {
                             <div className="product-image-wrapper">
 
                                 <img
-                                    src={
-                                        product.image_url
-                                            ? product.image_url
-                                            : "/placeholder-product.jpg"
-                                    }
+                                    src={getProductImageUrl(
+                                        product.image_url || product.image
+                                    )}
                                     alt={product.name}
                                     className="product-image"
                                 />
@@ -186,7 +185,7 @@ function ProductSection() {
                                 <div className="product-price">
 
                                     <span className="current-price">
-                                        ${Number(product.price).toFixed(2)}
+                                        ₹{Number(product.price).toFixed(2)}
                                     </span>
 
                                 </div>

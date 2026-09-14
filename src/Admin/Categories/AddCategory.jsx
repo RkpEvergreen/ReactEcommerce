@@ -5,6 +5,7 @@ import "./Category.css";
 function AddCategory() {
     const navigate = useNavigate();
     const [form, setForm] = useState({ name: "", slug: "", description: "" });
+    const [image, setImage] = useState(null);
     const [saving, setSaving] = useState(false);
 
     const handleChange = (event) => {
@@ -15,10 +16,14 @@ function AddCategory() {
         event.preventDefault();
         setSaving(true);
         try {
+            const formData = new FormData();
+            Object.entries(form).forEach(([key, value]) => formData.append(key, value));
+            if (image) {
+                formData.append("image", image);
+            }
             const response = await fetch("http://localhost:5000/api/categories", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form)
+                body: formData
             });
             const data = await response.json().catch(() => ({}));
             if (!response.ok) {
@@ -43,6 +48,10 @@ function AddCategory() {
                 <div className="category-form-group">
                     <label htmlFor="category-name">Category Name</label>
                     <input id="category-name" name="name" value={form.name} onChange={handleChange} required />
+                </div>
+                <div className="category-form-group">
+                    <label htmlFor="category-image">Category Image</label>
+                    <input id="category-image" type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => setImage(event.target.files[0] || null)} />
                 </div>
                 <div className="category-form-group">
                     <label htmlFor="category-slug">Slug</label>

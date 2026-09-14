@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import "./Category.css";
+import { getCategoryImageUrl } from "../../utils/categoryImage";
 
 function CategoryList() {
     const [categories, setCategories] = useState([]);
@@ -74,11 +75,12 @@ function CategoryList() {
             <div className="category-table-container">
                 <table className="category-table">
                     <thead>
-                        <tr><th>ID</th><th>Name</th><th>Slug</th><th>Products</th><th>Action</th></tr>
+                        <tr><th>Image</th><th>ID</th><th>Name</th><th>Slug</th><th>Products</th><th>Action</th></tr>
                     </thead>
                     <tbody>
                         {categories.map((category) => (
                             <tr key={category.id}>
+                                <td><img className="category-list-image" src={getCategoryImageUrl(category.image_url)} alt={category.name} /></td>
                                 <td>{category.id}</td>
                                 <td><strong>{category.name}</strong></td>
                                 <td>{category.slug}</td>

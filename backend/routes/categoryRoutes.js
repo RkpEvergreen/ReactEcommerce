@@ -1,7 +1,29 @@
 const express = require("express");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const db = require("../config/db");
 
 const router = express.Router();
+const uploadDirectory = path.join(__dirname, "..", "uploads", "categories");
+fs.mkdirSync(uploadDirectory, { recursive: true });
+
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: uploadDirectory,
+        filename: (req, file, callback) => {
+            const extension = path.extname(file.originalname).toLowerCase();
+            callback(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extension}`);
+        }
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (req, file, callback) => {
+        if (!["image/png", "image/jpeg", "image/webp"].includes(file.mimetype)) {
+            return callback(new Error("Only PNG, JPG and WEBP images are allowed."));
+        }
+        return callback(null, true);
+    }
+});
 
 function makeSlug(value) {
     return value
@@ -29,7 +51,8 @@ function categoryFields(body) {
 router.get("/", async (req, res) => {
     try {
         const [rows] = await db.query(
-            `SELECT c.id, c.name, c.slug, c.description, c.created_at, c.updated_at,
+            `SELECT c.id, c.name, c.slug, c.description, c.image_url,
+                    c.created_at, c.updated_at,
                     COUNT(p.id) AS products
              FROM categories c
              LEFT JOIN products p ON p.category_id = c.id AND p.is_active = TRUE
@@ -46,7 +69,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const [rows] = await db.query(
-            "SELECT id, name, slug, description FROM categories WHERE id = ?",
+            "SELECT id, name, slug, description, image_url FROM categories WHERE id = ?",
             [req.params.id]
         );
         if (rows.length === 0) {
@@ -59,7 +82,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", upload.single("image"), async (req, res) => {
     try {
         const fields = categoryFields(req.body);
         if (!fields) {
@@ -67,10 +90,15 @@ router.post("/", async (req, res) => {
         }
 
         const [result] = await db.query(
-            "INSERT INTO categories (name, slug, description) VALUES (?, ?, ?)",
-            [fields.name, fields.slug, fields.description]
+            "INSERT INTO categories (name, slug, description, image_url) VALUES (?, ?, ?, ?)",
+            [fields.name, fields.slug, fields.description, req.file ? req.file.filename : null]
         );
-        return res.status(201).json({ id: result.insertId, ...fields, products: 0 });
+        return res.status(201).json({
+            id: result.insertId,
+            ...fields,
+            image_url: req.file ? req.file.filename : null,
+            products: 0
+        });
     } catch (error) {
         console.error("Create category error:", error);
         if (error.code === "ER_DUP_ENTRY") {
@@ -80,21 +108,31 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", upload.single("image"), async (req, res) => {
     try {
         const fields = categoryFields(req.body);
         if (!fields) {
             return res.status(400).json({ error: "Category name is required." });
         }
 
+        const imageClause = req.file ? ", image_url = ?" : "";
+        const values = [fields.name, fields.slug, fields.description];
+        if (req.file) {
+            values.push(req.file.filename);
+        }
+        values.push(req.params.id);
         const [result] = await db.query(
-            "UPDATE categories SET name = ?, slug = ?, description = ? WHERE id = ?",
-            [fields.name, fields.slug, fields.description, req.params.id]
+            `UPDATE categories SET name = ?, slug = ?, description = ?${imageClause} WHERE id = ?`,
+            values
         );
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: "Category not found." });
         }
-        return res.json({ id: Number(req.params.id), ...fields });
+        return res.json({
+            id: Number(req.params.id),
+            ...fields,
+            ...(req.file ? { image_url: req.file.filename } : {})
+        });
     } catch (error) {
         console.error("Update category error:", error);
         if (error.code === "ER_DUP_ENTRY") {

@@ -7,6 +7,8 @@
 .category-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .category-table th { height: 42px; padding: 0 16px; color: #747b87; background: #fafbfc; font-size: 10px; text-align: left; text-transform: uppercase; }
 .category-table td { height: 58px; padding: 8px 16px; border-top: 1px solid #edf0f3; color: #59606c; }
+.category-list-image { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; background: #f1f1f1; }
+.category-image-preview { display: block; width: 72px; height: 72px; margin-bottom: 8px; border-radius: 8px; object-fit: cover; }
 .category-actions { display: flex; gap: 5px; }
 .category-edit-btn, .category-delete-btn { display: grid; width: 30px; height: 30px; place-items: center; border: 0; border-radius: 5px; color: #707783; background: transparent; cursor: pointer; }
 .category-edit-btn:hover { color: #7137ed; background: #f1edff; }

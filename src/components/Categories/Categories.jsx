@@ -1,64 +1,25 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-
-import promotionImage from "../../assets/categories/promotion.jpg";
-import clothingImage from "../../assets/categories/clothing.jpg";
-import shoesImage from "../../assets/categories/shoes.jpg";
-import bagsImage from "../../assets/categories/bags.jpg";
-import newInImage from "../../assets/categories/new-in.jpg";
-import newInImage2 from "../../assets/categories/new-in.jpg";
+import { getCategoryImageUrl } from "../../utils/categoryImage";
 
 import "./Categories.css";
 
-const categories = [
-    {
-        id: 1,
-        name: "Promotion",
-        count: 12,
-        image: promotionImage,
-        slug: "promotion",
-    },
-    {
-        id: 2,
-        name: "Clothing",
-        count: 12,
-        image: clothingImage,
-        slug: "clothing",
-    },
-    {
-        id: 3,
-        name: "Shoes",
-        count: 12,
-        image: shoesImage,
-        slug: "shoes",
-    },
-    {
-        id: 4,
-        name: "Bags",
-        count: 12,
-        image: bagsImage,
-        slug: "bags",
-    },
-    {
-        id: 5,
-        name: "New in",
-        count: 12,
-        image: newInImage,
-        slug: "new-in",
-    },
-     {
-        id: 6,
-        name: "New in",
-        count: 12,
-        image: newInImage2,
-        slug: "new-in",
-    },
-];
-
 function Categories() {
-
     const sliderRef = useRef(null);
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:5000/api/categories")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Unable to load categories");
+                }
+                return response.json();
+            })
+            .then(setCategories)
+            .catch((error) => console.error("Error loading categories:", error));
+    }, []);
 
     const scrollLeft = () => {
 
@@ -135,7 +96,7 @@ function Categories() {
                             <div className="category-image-wrapper">
 
                                 <img
-                                    src={category.image}
+                                    src={getCategoryImageUrl(category.image_url)}
                                     alt={category.name}
                                     className="category-image"
                                 />
@@ -147,7 +108,7 @@ function Categories() {
                             </h3>
 
                             <p>
-                                {category.count} items
+                                {category.products} items
                             </p>
 
                         </Link>

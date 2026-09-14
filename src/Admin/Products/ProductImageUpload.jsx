@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getProductImageUrl } from "../../utils/productImage";
 
 function ProductImageUpload({
     onImageSelect,
@@ -6,9 +7,7 @@ function ProductImageUpload({
 }) {
 
     const [preview, setPreview] = useState(
-        existingImage
-            ? `http://localhost:5000/uploads/products/${existingImage}`
-            : null
+        existingImage ? getProductImageUrl(existingImage, null) : null
     );
 
 

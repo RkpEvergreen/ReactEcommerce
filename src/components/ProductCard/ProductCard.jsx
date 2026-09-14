@@ -1,4 +1,5 @@
 import "./ProductCard.css";
+import { getProductImageUrl } from "../../utils/productImage";
 
 function ProductCard({ product }) {
     if (!product) {
@@ -9,7 +10,7 @@ function ProductCard({ product }) {
         <article className="product-card">
             <div className="product-card-image-wrap">
                 <img
-                    src={product.image_url || product.image || "https://placehold.co/600x800?text=Product"}
+                    src={getProductImageUrl(product.image_url || product.image)}
                     alt={product.name}
                     className="product-card-image"
                 />
