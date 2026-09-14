@@ -29,7 +29,8 @@ async function getProductQuery(id) {
         ? "WHERE p.is_active = TRUE ORDER BY p.created_at DESC"
         : "WHERE p.id = ? AND p.is_active = TRUE";
     const [rows] = await db.query(
-        `SELECT p.id, p.category_id, c.name AS category, p.name, p.slug,
+        `SELECT p.id, p.category_id, c.name AS category, c.slug AS category_slug,
+                p.name, p.slug,
                 p.description, p.price, p.sale_price, p.stock_quantity,
                 p.stock_quantity AS stock, p.image_url, p.image_url AS image,
                 p.is_active

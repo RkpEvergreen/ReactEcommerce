@@ -1,23 +1,64 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { Heart, ChevronRight, ShoppingCart } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
 import { getProductImageUrl } from "../utils/productImage";
+import "./Products.css";
 
 function Products() {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [sort, setSort] = useState("default");
+    const [searchParams] = useSearchParams();
+    const selectedSlug = searchParams.get("category");
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/products")
-            .then((response) => response.json())
-            .then((data) => {
-                setProducts(data);
-                setLoading(false);
+        Promise.all([
+            fetch("http://localhost:5000/api/products"),
+            fetch("http://localhost:5000/api/categories")
+        ])
+            .then(async ([productsResponse, categoriesResponse]) => {
+                if (!productsResponse.ok || !categoriesResponse.ok) {
+                    throw new Error("Unable to load catalog");
+                }
+                return Promise.all([
+                    productsResponse.json(),
+                    categoriesResponse.json()
+                ]);
             })
-            .catch((error) => {
-                console.error("Error loading products:", error);
-                setLoading(false);
-            });
+            .then(([productData, categoryData]) => {
+                setProducts(productData);
+                setCategories(categoryData);
+            })
+            .catch((error) => console.error("Error loading catalog:", error))
+            .finally(() => setLoading(false));
     }, []);
+
+    const selectedCategory = categories.find(
+        (category) => category.slug === selectedSlug
+    );
+
+    const visibleProducts = useMemo(() => {
+        const filtered = selectedCategory
+            ? products.filter((product) => (
+                String(product.category_id) === String(selectedCategory.id) ||
+                product.category_slug === selectedCategory.slug ||
+                product.category?.toLowerCase() === selectedCategory.name.toLowerCase()
+            ))
+            : products;
+        return [...filtered].sort((first, second) => {
+            if (sort === "price-low") {
+                return Number(first.price) - Number(second.price);
+            }
+            if (sort === "price-high") {
+                return Number(second.price) - Number(first.price);
+            }
+            if (sort === "newest") {
+                return Number(second.id) - Number(first.id);
+            }
+            return 0;
+        });
+    }, [products, selectedCategory, sort]);
 
     if (loading) {
         return (
@@ -31,12 +72,12 @@ function Products() {
         <div className="products-page">
 
             <div className="products-header">
-                <h1>Products</h1>
+                <h1>{selectedCategory?.name || "All Products"}</h1>
 
                 <div className="breadcrumb">
                     <Link to="/">Homepage</Link>
                     <span>›</span>
-                    <span>Products</span>
+                    <span>{selectedCategory?.name || "Products"}</span>
                 </div>
             </div>
 
@@ -47,41 +88,14 @@ function Products() {
                     <h3>Categories</h3>
 
                     <ul>
-                        <li>
-                            <Link to="/products">
-                                All Products
-                            </Link>
-                        </li>
-
-                        <li>
-                            <Link to="/products?category=mens-wear">
-                                Men's Wear
-                            </Link>
-                        </li>
-
-                        <li>
-                            <Link to="/products?category=womens-wear">
-                                Women's Wear
-                            </Link>
-                        </li>
-
-                        <li>
-                            <Link to="/products?category=kids-wear">
-                                Kid's Wear
-                            </Link>
-                        </li>
-
-                        <li>
-                            <Link to="/products?category=shoes">
-                                Shoes
-                            </Link>
-                        </li>
-
-                        <li>
-                            <Link to="/products?category=bags">
-                                Bags
-                            </Link>
-                        </li>
+                        <li><Link className={!selectedSlug ? "active" : ""} to="/products">All Products</Link></li>
+                        {categories.map((category) => (
+                            <li key={category.id}>
+                                <Link className={selectedSlug === category.slug ? "active" : ""} to={`/products?category=${category.slug}`}>
+                                    {category.name}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
 
                 </aside>
@@ -89,25 +103,30 @@ function Products() {
 
                 <section className="products-content">
 
+                    <div className="products-category-intro">
+                        <div>
+                            <h2>{selectedCategory?.name || "All Products"} <span>{visibleProducts.length} Items</span></h2>
+                            <p>{selectedCategory?.description || "Explore our latest collection of quality products, selected to make every occasion special."}</p>
+                        </div>
+                    </div>
                     <div className="products-toolbar">
-
-                        <span>
-                            {products.length} Products
-                        </span>
-
-                        <select>
-                            <option>Default sorting</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                            <option>Newest</option>
-                        </select>
-
+                        <div className="products-filter-chips">
+                            {["999 Store", "Best Selling", "New Arrivals", "Premium"].map((chip) => <button type="button" key={chip}>{chip}</button>)}
+                        </div>
+                        <label className="products-sort">SORT BY:
+                            <select value={sort} onChange={(event) => setSort(event.target.value)}>
+                                <option value="default">HandPicked</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="newest">Newest</option>
+                            </select>
+                        </label>
                     </div>
 
 
                     <div className="products-grid">
 
-                        {products.map((product) => (
+                        {visibleProducts.map((product) => (
 
                             <div
                                 className="product-item"
@@ -125,17 +144,19 @@ function Products() {
                                             )}
                                             alt={product.name}
                                         />
-
+                                        <button type="button" className="product-next" aria-label={`Preview ${product.name}`}><ChevronRight size={18} /></button>
+                                        <div className="product-hover-actions">
+                                            <button type="button" aria-label={`Add ${product.name} to wishlist`}><Heart size={18} /></button>
+                                            <span><ShoppingCart size={16} /> Shop Now</span>
+                                        </div>
                                     </div>
                                 </Link>
 
 
-                                <Link
-                                    className="product-name"
-                                    to={`/products/${product.id}`}
-                                >
-                                    {product.name}
-                                </Link>
+                                <div className="product-name-row">
+                                    <Link className="product-name" to={`/products/${product.id}`}>{product.name}</Link>
+                                    <button type="button" aria-label={`Add ${product.name} to wishlist`}><Heart size={19} /></button>
+                                </div>
 
 
                                 <div className="product-price">
